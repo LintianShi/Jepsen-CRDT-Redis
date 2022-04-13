@@ -1,0 +1,335 @@
+2022-04-12 21:53:13,118{GMT}	INFO	[jepsen test runner] jepsen.core: Test version 48f94854decc02db3c9b7c84aa60c495dcfba34e (plus uncommitted changes)
+2022-04-12 21:53:13,119{GMT}	INFO	[jepsen test runner] jepsen.core: Command line:
+lein run test --nodes-file nodes --password slt8375123 --username shilintian
+2022-04-12 21:53:13,168{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote #jepsen.control.SSHRemote{:session nil}
+ :concurrency 5
+ :db
+ #object[jepsen.crdt_redis$db$reify__346
+         "0x31443680"
+         "jepsen.crdt_redis$db$reify__346@31443680"]
+ :leave-db-running? false
+ :name "crdt-redis"
+ :logging-json? false
+ :start-time
+ #object[org.joda.time.DateTime "0x3684d2c0" "2022-04-12T21:53:13.000+08:00"]
+ :net
+ #object[jepsen.net$reify__9085 "0x4be460e5" "jepsen.net$reify__9085@4be460e5"]
+ :client
+ #object[jepsen.client$reify__8924
+         "0x454e9d65"
+         "jepsen.client$reify__8924@454e9d65"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x7805478c"
+         "java.util.concurrent.CyclicBarrier@7805478c"]
+ :pure-generators true
+ :ssh
+ {:dummy? false,
+  :username "shilintian",
+  :password "slt8375123",
+  :strict-host-key-checking false,
+  :private-key-path nil}
+ :checker
+ #object[jepsen.checker$unbridled_optimism$reify__8609
+         "0x6807989e"
+         "jepsen.checker$unbridled_optimism$reify__8609@6807989e"]
+ :argv
+ ("test"
+  "--nodes-file"
+  "nodes"
+  "--password"
+  "slt8375123"
+  "--username"
+  "shilintian")
+ :nemesis
+ #object[jepsen.nemesis$reify__9186
+         "0xc2e33"
+         "jepsen.nemesis$reify__9186@c2e33"]
+ :active-histories
+ #object[clojure.lang.Atom "0x56f84c9b" {:status :ready, :val #{}}]
+ :nodes
+ ["cd-a0.disalg.cn"
+  "cd-a1.disalg.cn"
+  "cd-a2.disalg.cn"
+  "cd-a3.disalg.cn"
+  "cd-a4.disalg.cn"]
+ :test-count 1
+ :generator nil
+ :os
+ #object[jepsen.os.ubuntu.Ubuntu
+         "0x5bad555b"
+         "jepsen.os.ubuntu.Ubuntu@5bad555b"]
+ :time-limit 60}
+
+2022-04-12 21:53:14,247{GMT}	INFO	[jepsen node cd-a4.disalg.cn] jepsen.os.ubuntu: cd-a4.disalg.cn setting up ubuntu
+2022-04-12 21:53:14,244{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.os.ubuntu: cd-a0.disalg.cn setting up ubuntu
+2022-04-12 21:53:14,247{GMT}	INFO	[jepsen node cd-a3.disalg.cn] jepsen.os.ubuntu: cd-a3.disalg.cn setting up ubuntu
+2022-04-12 21:53:14,246{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.os.ubuntu: cd-a2.disalg.cn setting up ubuntu
+2022-04-12 21:53:14,246{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.os.ubuntu: cd-a1.disalg.cn setting up ubuntu
+2022-04-12 21:53:18,665{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.os.debian: Installing #{libzip4}
+2022-04-12 21:53:18,975{GMT}	WARN	[jepsen node cd-a1.disalg.cn] jepsen.control: Encountered error with conn [:control "cd-a1.disalg.cn"]; reopening
+java.lang.InterruptedException: sleep interrupted
+	at java.base/java.lang.Thread.sleep(Native Method)
+	at clj_ssh.ssh$ssh_exec.invokeStatic(ssh.clj:690)
+	at clj_ssh.ssh$ssh_exec.invoke(ssh.clj:670)
+	at clj_ssh.ssh$ssh.invokeStatic(ssh.clj:723)
+	at clj_ssh.ssh$ssh.invoke(ssh.clj:699)
+	at jepsen.control.SSHRemote.execute_BANG_(control.clj:331)
+	at jepsen.control$ssh_STAR_$fn__3063.invoke(control.clj:172)
+	at jepsen.control$ssh_STAR_.invokeStatic(control.clj:172)
+	at jepsen.control$ssh_STAR_.invoke(control.clj:168)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:194)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:191)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:210)
+	at jepsen.control$exec.doInvoke(control.clj:204)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at jepsen.os.debian$update_BANG_.invokeStatic(debian.clj:37)
+	at jepsen.os.debian$update_BANG_.invoke(debian.clj:34)
+	at jepsen.os.debian$maybe_update_BANG_.invokeStatic(debian.clj:43)
+	at jepsen.os.debian$maybe_update_BANG_.invoke(debian.clj:39)
+	at jepsen.os.ubuntu.Ubuntu.setup_BANG_(ubuntu.clj:20)
+	at jepsen.os$fn__2459$G__2453__2463.invoke(os.clj:4)
+	at jepsen.os$fn__2459$G__2452__2468.invoke(os.clj:4)
+	at clojure.core$partial$fn__5824.invoke(core.clj:2625)
+	at jepsen.control$on_nodes$fn__3161.invoke(control.clj:430)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-12 21:53:18,976{GMT}	WARN	[jepsen node cd-a3.disalg.cn] jepsen.control: Encountered error with conn [:control "cd-a3.disalg.cn"]; reopening
+java.lang.InterruptedException: sleep interrupted
+	at java.base/java.lang.Thread.sleep(Native Method)
+	at clj_ssh.ssh$ssh_exec.invokeStatic(ssh.clj:690)
+	at clj_ssh.ssh$ssh_exec.invoke(ssh.clj:670)
+	at clj_ssh.ssh$ssh.invokeStatic(ssh.clj:723)
+	at clj_ssh.ssh$ssh.invoke(ssh.clj:699)
+	at jepsen.control.SSHRemote.execute_BANG_(control.clj:331)
+	at jepsen.control$ssh_STAR_$fn__3063.invoke(control.clj:172)
+	at jepsen.control$ssh_STAR_.invokeStatic(control.clj:172)
+	at jepsen.control$ssh_STAR_.invoke(control.clj:168)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:194)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:191)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:210)
+	at jepsen.control$exec.doInvoke(control.clj:204)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at jepsen.os.debian$update_BANG_.invokeStatic(debian.clj:37)
+	at jepsen.os.debian$update_BANG_.invoke(debian.clj:34)
+	at jepsen.os.debian$maybe_update_BANG_.invokeStatic(debian.clj:43)
+	at jepsen.os.debian$maybe_update_BANG_.invoke(debian.clj:39)
+	at jepsen.os.ubuntu.Ubuntu.setup_BANG_(ubuntu.clj:20)
+	at jepsen.os$fn__2459$G__2453__2463.invoke(os.clj:4)
+	at jepsen.os$fn__2459$G__2452__2468.invoke(os.clj:4)
+	at clojure.core$partial$fn__5824.invoke(core.clj:2625)
+	at jepsen.control$on_nodes$fn__3161.invoke(control.clj:430)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-12 21:53:18,979{GMT}	WARN	[jepsen node cd-a0.disalg.cn] jepsen.control: Encountered error with conn [:control "cd-a0.disalg.cn"]; reopening
+java.lang.InterruptedException: sleep interrupted
+	at java.base/java.lang.Thread.sleep(Native Method)
+	at clj_ssh.ssh$ssh_exec.invokeStatic(ssh.clj:690)
+	at clj_ssh.ssh$ssh_exec.invoke(ssh.clj:670)
+	at clj_ssh.ssh$ssh.invokeStatic(ssh.clj:723)
+	at clj_ssh.ssh$ssh.invoke(ssh.clj:699)
+	at jepsen.control.SSHRemote.execute_BANG_(control.clj:331)
+	at jepsen.control$ssh_STAR_$fn__3063.invoke(control.clj:172)
+	at jepsen.control$ssh_STAR_.invokeStatic(control.clj:172)
+	at jepsen.control$ssh_STAR_.invoke(control.clj:168)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:194)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:191)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:210)
+	at jepsen.control$exec.doInvoke(control.clj:204)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at jepsen.os.debian$update_BANG_.invokeStatic(debian.clj:37)
+	at jepsen.os.debian$update_BANG_.invoke(debian.clj:34)
+	at jepsen.os.debian$maybe_update_BANG_.invokeStatic(debian.clj:43)
+	at jepsen.os.debian$maybe_update_BANG_.invoke(debian.clj:39)
+	at jepsen.os.ubuntu.Ubuntu.setup_BANG_(ubuntu.clj:20)
+	at jepsen.os$fn__2459$G__2453__2463.invoke(os.clj:4)
+	at jepsen.os$fn__2459$G__2452__2468.invoke(os.clj:4)
+	at clojure.core$partial$fn__5824.invoke(core.clj:2625)
+	at jepsen.control$on_nodes$fn__3161.invoke(control.clj:430)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-12 21:53:18,980{GMT}	WARN	[jepsen node cd-a4.disalg.cn] jepsen.control: Encountered error with conn [:control "cd-a4.disalg.cn"]; reopening
+java.lang.InterruptedException: sleep interrupted
+	at java.base/java.lang.Thread.sleep(Native Method)
+	at clj_ssh.ssh$ssh_exec.invokeStatic(ssh.clj:690)
+	at clj_ssh.ssh$ssh_exec.invoke(ssh.clj:670)
+	at clj_ssh.ssh$ssh.invokeStatic(ssh.clj:723)
+	at clj_ssh.ssh$ssh.invoke(ssh.clj:699)
+	at jepsen.control.SSHRemote.execute_BANG_(control.clj:331)
+	at jepsen.control$ssh_STAR_$fn__3063.invoke(control.clj:172)
+	at jepsen.control$ssh_STAR_.invokeStatic(control.clj:172)
+	at jepsen.control$ssh_STAR_.invoke(control.clj:168)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:194)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:191)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:210)
+	at jepsen.control$exec.doInvoke(control.clj:204)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at jepsen.os.debian$update_BANG_.invokeStatic(debian.clj:37)
+	at jepsen.os.debian$update_BANG_.invoke(debian.clj:34)
+	at jepsen.os.debian$maybe_update_BANG_.invokeStatic(debian.clj:43)
+	at jepsen.os.debian$maybe_update_BANG_.invoke(debian.clj:39)
+	at jepsen.os.ubuntu.Ubuntu.setup_BANG_(ubuntu.clj:20)
+	at jepsen.os$fn__2459$G__2453__2463.invoke(os.clj:4)
+	at jepsen.os$fn__2459$G__2452__2468.invoke(os.clj:4)
+	at clojure.core$partial$fn__5824.invoke(core.clj:2625)
+	at jepsen.control$on_nodes$fn__3161.invoke(control.clj:430)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-12 21:53:19,788{GMT}	WARN	[main] jepsen.core: Test crashed!
+clojure.lang.ExceptionInfo: Command exited with non-zero status 100 on node cd-a2.disalg.cn:
+sudo -S -u root bash -c "cd /; env DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-downgrades --allow-change-held-packages libzip4"
+
+STDIN:
+null
+
+STDOUT:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+
+
+STDERR:
+E: Unable to locate package libzip4
+
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at jepsen.control$throw_on_nonzero_exit.invokeStatic(control.clj:150)
+	at jepsen.control$throw_on_nonzero_exit.invoke(control.clj:145)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:194)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:191)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:210)
+	at jepsen.control$exec.doInvoke(control.clj:204)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:673)
+	at clojure.core$apply.doInvoke(core.clj:660)
+	at clojure.lang.RestFn.invoke(RestFn.java:749)
+	at jepsen.os.debian$install.invokeStatic(debian.clj:104)
+	at jepsen.os.debian$install.invoke(debian.clj:80)
+	at jepsen.os.ubuntu.Ubuntu$fn__334.invoke(ubuntu.clj:24)
+	at jepsen.os.ubuntu.Ubuntu.setup_BANG_(ubuntu.clj:22)
+	at jepsen.os$fn__2459$G__2453__2463.invoke(os.clj:4)
+	at jepsen.os$fn__2459$G__2452__2468.invoke(os.clj:4)
+	at clojure.core$partial$fn__5824.invoke(core.clj:2625)
+	at jepsen.control$on_nodes$fn__3161.invoke(control.clj:430)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)

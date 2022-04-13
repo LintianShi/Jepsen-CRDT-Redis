@@ -1,0 +1,103 @@
+2022-04-13 22:35:38,361{GMT}	INFO	[jepsen test runner] jepsen.core: Test version 48f94854decc02db3c9b7c84aa60c495dcfba34e (plus uncommitted changes)
+2022-04-13 22:35:38,362{GMT}	INFO	[jepsen test runner] jepsen.core: Command line:
+lein run test --nodes-file nodes --username shilintian --password slt8375123
+2022-04-13 22:35:38,389{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.clj_ssh.Remote{:concurrency-limit 8,
+                                                                                                            :conn-spec nil,
+                                                                                                            :session nil,
+                                                                                                            :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 5
+ :db
+ #object[jepsen.crdt_redis$db$reify__347
+         "0x45cb5307"
+         "jepsen.crdt_redis$db$reify__347@45cb5307"]
+ :leave-db-running? false
+ :name "crdt-redis"
+ :logging-json? false
+ :start-time
+ #object[org.joda.time.DateTime "0x4dad2363" "2022-04-13T22:35:38.000+08:00"]
+ :net
+ #object[jepsen.net$reify__10214
+         "0x114b2414"
+         "jepsen.net$reify__10214@114b2414"]
+ :client
+ #object[jepsen.client$reify__10053
+         "0x57920d6c"
+         "jepsen.client$reify__10053@57920d6c"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x465d1345"
+         "java.util.concurrent.CyclicBarrier@465d1345"]
+ :pure-generators true
+ :ssh
+ {:dummy? false,
+  :username "shilintian",
+  :password "slt8375123",
+  :strict-host-key-checking false,
+  :private-key-path nil}
+ :checker
+ #object[jepsen.checker$unbridled_optimism$reify__9727
+         "0x62cf86d6"
+         "jepsen.checker$unbridled_optimism$reify__9727@62cf86d6"]
+ :argv
+ ("test"
+  "--nodes-file"
+  "nodes"
+  "--username"
+  "shilintian"
+  "--password"
+  "slt8375123")
+ :nemesis #unprintable "jepsen.nemesis$reify__10315@2a6c751f"
+ :nodes
+ ["cd-a0.disalg.cn"
+  "cd-a1.disalg.cn"
+  "cd-a2.disalg.cn"
+  "cd-b0.disalg.cn"
+  "cd-b1.disalg.cn"]
+ :test-count 1
+ :generator nil
+ :os
+ #object[jepsen.os.ubuntu.Ubuntu
+         "0x14d18029"
+         "jepsen.os.ubuntu.Ubuntu@14d18029"]
+ :time-limit 60}
+
+2022-04-13 22:35:42,893{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.os.ubuntu: cd-a1.disalg.cn setting up ubuntu
+2022-04-13 22:35:42,893{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.os.ubuntu: cd-a0.disalg.cn setting up ubuntu
+2022-04-13 22:35:42,893{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.os.ubuntu: cd-a2.disalg.cn setting up ubuntu
+2022-04-13 22:35:42,893{GMT}	INFO	[jepsen node cd-b0.disalg.cn] jepsen.os.ubuntu: cd-b0.disalg.cn setting up ubuntu
+2022-04-13 22:35:42,893{GMT}	INFO	[jepsen node cd-b1.disalg.cn] jepsen.os.ubuntu: cd-b1.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,409{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.os.ubuntu: cd-a2.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,411{GMT}	INFO	[jepsen node cd-b0.disalg.cn] jepsen.os.ubuntu: cd-b0.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,411{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.os.ubuntu: cd-a1.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,412{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.os.ubuntu: cd-a0.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,597{GMT}	INFO	[jepsen node cd-b1.disalg.cn] jepsen.os.ubuntu: cd-b1.disalg.cn setting up ubuntu
+2022-04-13 22:35:43,598{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2022-04-13 22:35:43,602{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,602{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,602{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,603{GMT}	INFO	[jepsen node cd-b0.disalg.cn] jepsen.crdt-redis: cd-b0.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,603{GMT}	INFO	[jepsen node cd-b1.disalg.cn] jepsen.crdt-redis: cd-b1.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,605{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2022-04-13 22:35:43,609{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn installing crdt-redis v3.1.5
+2022-04-13 22:35:43,609{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn installing crdt-redis v3.1.5
+2022-04-13 22:35:43,613{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn installing crdt-redis v3.1.5
+2022-04-13 22:35:43,614{GMT}	INFO	[jepsen node cd-b0.disalg.cn] jepsen.crdt-redis: cd-b0.disalg.cn installing crdt-redis v3.1.5
+2022-04-13 22:35:43,614{GMT}	INFO	[jepsen node cd-b1.disalg.cn] jepsen.crdt-redis: cd-b1.disalg.cn installing crdt-redis v3.1.5
+2022-04-13 22:35:43,616{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2022-04-13 22:35:43,654{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2022-04-13 22:35:43,672{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,675{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,678{GMT}	INFO	[jepsen node cd-b0.disalg.cn] jepsen.crdt-redis: cd-b0.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,672{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,681{GMT}	INFO	[jepsen node cd-b1.disalg.cn] jepsen.crdt-redis: cd-b1.disalg.cn tearing down crdt-redis
+2022-04-13 22:35:43,684{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2022-04-13 22:35:43,685{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2022-04-13 22:35:43,691{GMT}	INFO	[jepsen results] jepsen.store: Wrote /home/shilintian/jepsen.crdt-redis/store/crdt-redis/20220413T223538.000+0800/results.edn
+2022-04-13 22:35:43,704{GMT}	INFO	[jepsen test runner] jepsen.core: {:valid? true}
+
+
+Everything looks good! ヽ(‘ー`)ノ

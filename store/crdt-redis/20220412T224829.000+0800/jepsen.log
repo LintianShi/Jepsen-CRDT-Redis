@@ -1,0 +1,140 @@
+2022-04-12 22:48:29,703{GMT}	INFO	[jepsen test runner] jepsen.core: Test version 48f94854decc02db3c9b7c84aa60c495dcfba34e (plus uncommitted changes)
+2022-04-12 22:48:29,704{GMT}	INFO	[jepsen test runner] jepsen.core: Command line:
+lein run test --nodes-file nodes --password slt8375123 --username shilintian
+2022-04-12 22:48:29,732{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote #jepsen.control.SSHRemote{:session nil}
+ :concurrency 5
+ :db
+ #object[jepsen.crdt_redis$db$reify__346
+         "0x2986427e"
+         "jepsen.crdt_redis$db$reify__346@2986427e"]
+ :leave-db-running? false
+ :name "crdt-redis"
+ :logging-json? false
+ :start-time
+ #object[org.joda.time.DateTime "0x4a5b38e6" "2022-04-12T22:48:29.000+08:00"]
+ :net
+ #object[jepsen.net$reify__9100 "0x58583a2d" "jepsen.net$reify__9100@58583a2d"]
+ :client
+ #object[jepsen.client$reify__8939
+         "0x3e8afc2d"
+         "jepsen.client$reify__8939@3e8afc2d"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x2d172c7"
+         "java.util.concurrent.CyclicBarrier@2d172c7"]
+ :pure-generators true
+ :ssh
+ {:dummy? false,
+  :username "shilintian",
+  :password "slt8375123",
+  :strict-host-key-checking false,
+  :private-key-path nil}
+ :checker
+ #object[jepsen.checker$unbridled_optimism$reify__8624
+         "0x115ef673"
+         "jepsen.checker$unbridled_optimism$reify__8624@115ef673"]
+ :argv
+ ("test"
+  "--nodes-file"
+  "nodes"
+  "--password"
+  "slt8375123"
+  "--username"
+  "shilintian")
+ :nemesis #unprintable "jepsen.nemesis$reify__9203@8ce3f27"
+ :active-histories
+ #object[clojure.lang.Atom "0x77476fcf" {:status :ready, :val #{}}]
+ :nodes
+ ["cd-a0.disalg.cn"
+  "cd-a1.disalg.cn"
+  "cd-a2.disalg.cn"
+  "cd-a3.disalg.cn"
+  "cd-a4.disalg.cn"]
+ :test-count 1
+ :generator nil
+ :os
+ #object[jepsen.os.ubuntu.Ubuntu "0x6b4fd7d" "jepsen.os.ubuntu.Ubuntu@6b4fd7d"]
+ :time-limit 60}
+
+2022-04-12 22:48:30,937{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.os.ubuntu: cd-a0.disalg.cn setting up ubuntu
+2022-04-12 22:48:30,937{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.os.ubuntu: cd-a1.disalg.cn setting up ubuntu
+2022-04-12 22:48:30,937{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.os.ubuntu: cd-a2.disalg.cn setting up ubuntu
+2022-04-12 22:48:30,940{GMT}	INFO	[jepsen node cd-a3.disalg.cn] jepsen.os.ubuntu: cd-a3.disalg.cn setting up ubuntu
+2022-04-12 22:48:30,941{GMT}	INFO	[jepsen node cd-a4.disalg.cn] jepsen.os.ubuntu: cd-a4.disalg.cn setting up ubuntu
+2022-04-12 22:48:31,599{GMT}	WARN	[jepsen node cd-a0.disalg.cn] jepsen.control: Encountered error with conn [:control "cd-a0.disalg.cn"]; reopening
+com.jcraft.jsch.JSchException: session is down
+	at com.jcraft.jsch.Channel.sendChannelOpen(Channel.java:762)
+	at com.jcraft.jsch.Channel.connect(Channel.java:151)
+	at com.jcraft.jsch.Channel.connect(Channel.java:145)
+	at clj_ssh.ssh$connect_channel.invokeStatic(ssh.clj:512)
+	at clj_ssh.ssh$connect_channel.invoke(ssh.clj:509)
+	at clj_ssh.ssh$ssh_exec_proc.invokeStatic(ssh.clj:667)
+	at clj_ssh.ssh$ssh_exec_proc.invoke(ssh.clj:646)
+	at clj_ssh.ssh$ssh_exec.invokeStatic(ssh.clj:677)
+	at clj_ssh.ssh$ssh_exec.invoke(ssh.clj:670)
+	at clj_ssh.ssh$ssh.invokeStatic(ssh.clj:723)
+	at clj_ssh.ssh$ssh.invoke(ssh.clj:699)
+	at jepsen.control.SSHRemote.execute_BANG_(control.clj:353)
+	at jepsen.control$ssh_STAR_$fn__3064.invoke(control.clj:177)
+	at jepsen.control$ssh_STAR_.invokeStatic(control.clj:177)
+	at jepsen.control$ssh_STAR_.invoke(control.clj:173)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:200)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:197)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$apply.invoke(core.clj:660)
+	at jepsen.control$exec.invokeStatic(control.clj:216)
+	at jepsen.control$exec.doInvoke(control.clj:210)
+	at clojure.lang.RestFn.invoke(RestFn.java:436)
+	at jepsen.net$reify__9100$fn__9102.invoke(net.clj:69)
+	at jepsen.control$on_nodes$fn__3165.invoke(control.clj:452)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:146)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:665)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1973)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1973)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:669)
+	at clojure.core$bound_fn_STAR_$fn__5734.doInvoke(core.clj:2003)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-12 22:48:33,409{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2022-04-12 22:48:33,411{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn tearing down etcd
+2022-04-12 22:48:33,412{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn tearing down etcd
+2022-04-12 22:48:33,411{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn tearing down etcd
+2022-04-12 22:48:33,414{GMT}	INFO	[jepsen node cd-a4.disalg.cn] jepsen.crdt-redis: cd-a4.disalg.cn tearing down etcd
+2022-04-12 22:48:33,414{GMT}	INFO	[jepsen node cd-a3.disalg.cn] jepsen.crdt-redis: cd-a3.disalg.cn tearing down etcd
+2022-04-12 22:48:33,416{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2022-04-12 22:48:33,418{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn installing etcd v3.1.5
+2022-04-12 22:48:33,419{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn installing etcd v3.1.5
+2022-04-12 22:48:33,419{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn installing etcd v3.1.5
+2022-04-12 22:48:33,420{GMT}	INFO	[jepsen node cd-a3.disalg.cn] jepsen.crdt-redis: cd-a3.disalg.cn installing etcd v3.1.5
+2022-04-12 22:48:33,423{GMT}	INFO	[jepsen node cd-a4.disalg.cn] jepsen.crdt-redis: cd-a4.disalg.cn installing etcd v3.1.5
+2022-04-12 22:48:33,424{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2022-04-12 22:48:33,450{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2022-04-12 22:48:33,463{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2022-04-12 22:48:33,464{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2022-04-12 22:48:33,467{GMT}	INFO	[jepsen results] jepsen.store: Wrote /home/shilintian/jepsen.crdt-redis/store/crdt-redis/20220412T224829.000+0800/results.edn
+2022-04-12 22:48:33,469{GMT}	INFO	[jepsen node cd-a0.disalg.cn] jepsen.crdt-redis: cd-a0.disalg.cn tearing down etcd
+2022-04-12 22:48:33,473{GMT}	INFO	[jepsen node cd-a3.disalg.cn] jepsen.crdt-redis: cd-a3.disalg.cn tearing down etcd
+2022-04-12 22:48:33,473{GMT}	INFO	[jepsen node cd-a1.disalg.cn] jepsen.crdt-redis: cd-a1.disalg.cn tearing down etcd
+2022-04-12 22:48:33,473{GMT}	INFO	[jepsen node cd-a4.disalg.cn] jepsen.crdt-redis: cd-a4.disalg.cn tearing down etcd
+2022-04-12 22:48:33,473{GMT}	INFO	[jepsen node cd-a2.disalg.cn] jepsen.crdt-redis: cd-a2.disalg.cn tearing down etcd
+2022-04-12 22:48:33,491{GMT}	INFO	[jepsen test runner] jepsen.core: {:valid? true}
+
+
+Everything looks good! ヽ(‘ー`)ノ
