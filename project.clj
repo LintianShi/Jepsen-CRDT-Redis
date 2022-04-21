@@ -7,5 +7,9 @@
                  [com.taoensso/carmine "3.1.0-LOCAL"]
                  [slingshot "0.12.2"]
                  [jepsen "0.2.7-LOCAL"]]
-  :repositories [["central" "https://maven.aliyun.com/nexus/content/groups/public"]
-                 ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]])
+  :repositories [
+    ["central" "https://maven.aliyun.com/nexus/content/groups/public"]
+                 ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
+                 ["local" ~(str (.toURI (java.io.File. "maven_repository")))]]
+  :resource-paths ["resources/visearch-1.0.jar"]
+  )

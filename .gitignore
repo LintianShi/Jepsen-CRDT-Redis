@@ -2,6 +2,7 @@
 /classes
 /checkouts
 /store
+/maven_repository
 profiles.clj
 pom.xml
 pom.xml.asc

@@ -12,7 +12,8 @@
             [jepsen.control.util :as cu]
             [jepsen.os.ubuntu :as ubuntu]
             [taoensso.carmine :as car :refer (wcar)])
-    (:use [slingshot.slingshot :only [try+]]))
+    (:use [slingshot.slingshot :only [try+]])
+    (:import [checking JChecker]))
 
 (def script_path "/home/shilintian/Redis-CRDT-Experiment/experiment/redis_test/")
 (def start_server "./server.sh")
@@ -160,7 +161,7 @@
           :db   (db)
           :pure-generators true
           :client (PQClient. nil)
-          :checker         (checker/visearch-checker)
+          :checker         (checker/visearch-checker "rpq")
           :generator       (->> (gen/mix [rwfzadd rwfzincrby rwfzrem rwfzscore rwfzmax])
                                 (gen/stagger 1)
                                 (gen/nemesis nil)
