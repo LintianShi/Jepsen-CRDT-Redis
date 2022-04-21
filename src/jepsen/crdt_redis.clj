@@ -2,11 +2,13 @@
   (:require [clojure.tools.logging :refer :all]
             [clojure.string :as str]
             [jepsen [cli :as cli]
+                    [checker :as checker]
                     [client :as client]
                     [control :as c]
                     [db :as db]
                     [generator :as gen]
                     [tests :as tests]]
+            [knossos.model :as model]
             [jepsen.control.util :as cu]
             [jepsen.os.ubuntu :as ubuntu]
             [taoensso.carmine :as car :refer (wcar)])
@@ -50,45 +52,50 @@
       (info (c/exec "cd" script_path c/&& clean port))
       (Thread/sleep 1000))))
 
-
-(defn r   [_ _] {:type :invoke, :f :read, :value nil})
-(defn w   [_ _] {:type :invoke, :f :write, :value (rand-int 10)})
-(defn cas [_ _] {:type :invoke, :f :cas, :value [(rand-int 5) (rand-int 5)]})
-
+;; rwf-pq
 (defn rwfzadd   [_ _] {:type :invoke, :f :add, :value ["rwfzadd" "default" (rand-int 5) (rand-int 100)]})
 (defn rwfzincrby   [_ _] {:type :invoke, :f :incrby, :value ["rwfzincrby" "default" (rand-int 5) (- (rand-int 200) 100)]})
 (defn rwfzrem   [_ _] {:type :invoke, :f :rem, :value ["rwfzrem" "default" (rand-int 5)]})
 (defn rwfzscore   [_ _] {:type :invoke, :f :score, :value ["rwfzscore" "default" (rand-int 5)]})
 (defn rwfzmax   [_ _] {:type :invoke, :f :max, :value ["rwfzmax" "default"]})
 
+;; add-win-pq
+(defn ozadd   [_ _] {:type :invoke, :f :add, :value ["ozadd" "default" (rand-int 5) (rand-int 100)]})
+(defn ozincrby   [_ _] {:type :invoke, :f :incrby, :value ["ozincrby" "default" (rand-int 5) (- (rand-int 200) 100)]})
+(defn ozrem   [_ _] {:type :invoke, :f :rem, :value ["ozrem" "default" (rand-int 5)]})
+(defn ozscore   [_ _] {:type :invoke, :f :score, :value ["ozscore" "default" (rand-int 5)]})
+(defn ozmax   [_ _] {:type :invoke, :f :max, :value ["ozmax" "default"]})
+
+;; remove-win-pq
+(defn rzadd   [_ _] {:type :invoke, :f :add, :value ["rzadd" "default" (rand-int 5) (rand-int 100)]})
+(defn rzincrby   [_ _] {:type :invoke, :f :incrby, :value ["rzincrby" "default" (rand-int 5) (- (rand-int 200) 100)]})
+(defn rzrem   [_ _] {:type :invoke, :f :rem, :value ["rzrem" "default" (rand-int 5)]})
+(defn rzscore   [_ _] {:type :invoke, :f :score, :value ["rwfzscore" "default" (rand-int 5)]})
+(defn rzmax   [_ _] {:type :invoke, :f :max, :value ["rzmax" "default"]})
+
+;; rwf-set
+(defn rwfsadd   [_ _] {:type :invoke, :f :add, :value ["rwfsadd" "default" (rand-int 5) (rand-int 100)]})
+(defn rwfsrem   [_ _] {:type :invoke, :f :rem, :value ["rwfsrem" "default" (rand-int 5)]})
+(defn rwfscontains   [_ _] {:type :invoke, :f :contains, :value ["rwfscontains" "default" (rand-int 5)]})
+(defn rwfssize   [_ _] {:type :invoke, :f :size, :value ["rwfssize" "default"]})
+
+;; add-win-set
+(defn osadd   [_ _] {:type :invoke, :f :add, :value ["osadd" "default" (rand-int 5) (rand-int 100)]})
+(defn osrem   [_ _] {:type :invoke, :f :rem, :value ["osrem" "default" (rand-int 5)]})
+(defn oscontains   [_ _] {:type :invoke, :f :contains, :value ["oscontains" "default" (rand-int 5)]})
+(defn ossize   [_ _] {:type :invoke, :f :size, :value ["ossize" "default"]})
+
+;; remove-win-set
+(defn rsadd   [_ _] {:type :invoke, :f :add, :value ["rsadd" "default" (rand-int 5) (rand-int 100)]})
+(defn rsrem   [_ _] {:type :invoke, :f :rem, :value ["rsrem" "default" (rand-int 5)]})
+(defn rscontains   [_ _] {:type :invoke, :f :contains, :value ["rscontains" "default" (rand-int 5)]})
+(defn rssize   [_ _] {:type :invoke, :f :size, :value ["rssize" "default"]})
+
 
 (defmacro wcar* [node & body] `(car/wcar {:pool {:host node :port 6379} :spec {}} ~@body))
 (def tkey (partial car/key :carmine :temp :test))
 
-(defrecord Client [conn]
-  client/Client
-  (open! [this test node]
-    (assoc this :conn node))
-
-  (setup! [this test])
-
-  (invoke! [_ test op]
-    (case (:f op)
-        :read (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} 
-                                                    (car/get (tkey "foo") )))
-        :write (do 
-        (car/wcar 
-        {:pool {} :spec {:host conn :port 6379}} 
-                                           (car/set 
-                                           (tkey "foo") 
-                                           (:value op)))
-                    (assoc op :type :ok))))
-
-  (teardown! [this test])
-
-  (close! [_ test]))
-
-(defrecord RwfPQClient [conn]
+(defrecord PQClient [conn]
   client/Client
   (open! [this test node]
     (assoc this :conn node))
@@ -116,6 +123,30 @@
 
   (close! [_ test]))
 
+(defrecord SetClient [conn]
+  client/Client
+  (open! [this test node]
+    (assoc this :conn node))
+
+  (setup! [this test])
+
+  (invoke! [_ test op]
+    (case (:f op)
+        :add (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
+                 (assoc op :type :ok))
+              (catch [] ex
+                  (assoc op :type :ok)))
+        :rem (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
+                 (assoc op :type :ok))
+              (catch [] ex
+                  (assoc op :type :ok)))
+        :contains (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))
+        :size (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))
+
+  (teardown! [this test])
+
+  (close! [_ test]))
+
 
 
 (defn crdt-redis-test
@@ -128,7 +159,8 @@
           :os   ubuntu/os
           :db   (db)
           :pure-generators true
-          :client (RwfPQClient. nil)
+          :client (PQClient. nil)
+          :checker         (checker/visearch-checker)
           :generator       (->> (gen/mix [rwfzadd rwfzincrby rwfzrem rwfzscore rwfzmax])
                                 (gen/stagger 1)
                                 (gen/nemesis nil)
