@@ -104,19 +104,20 @@
   (setup! [this test])
 
   (invoke! [_ test op]
+    ;; (info conn)
     (case (:f op)
         :add (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
                  (assoc op :type :ok, :value nil))
               (catch [] ex
-                  (assoc op :type :ok, :value nil)))
+                  (assoc op :type :fail, :value nil)))
         :incrby (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
                     (assoc op :type :ok, :value nil))
                 (catch [] ex
-                  (assoc op :type :ok, :value nil)))
+                  (assoc op :type :fail, :value nil)))
         :rem (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
                  (assoc op :type :ok, :value nil))
               (catch [] ex
-                  (assoc op :type :ok, :value nil)))
+                  (assoc op :type :fail, :value nil)))
         :score (assoc op :type :ok, :value (vector (parse-number (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))
         :max (assoc op :type :ok, :value (vec (map parse-number (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))))
 
@@ -165,7 +166,7 @@
           :generator       (->> (gen/mix [rwfzadd rwfzincrby rwfzrem rwfzscore rwfzmax])
                                 (gen/stagger 1/5)
                                 (gen/nemesis nil)
-                                (gen/time-limit 20))}))
+                                (gen/time-limit 10))}))
 
 (defn -main
   "Handles command line arguments. Can either run a test, or a web server for

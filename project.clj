@@ -11,5 +11,5 @@
     ["central" "https://maven.aliyun.com/nexus/content/groups/public"]
                  ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
                  ["local" ~(str (.toURI (java.io.File. "maven_repository")))]]
-  :resource-paths ["resources/visearch-1.0.jar"]
+  :resource-paths ["resources/ViSearch-1.0.jar"]
   )
