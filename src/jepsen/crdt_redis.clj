@@ -30,10 +30,10 @@
 
 ;; ../../redis-6.0.5/src/redis-cli -h 127.0.0.1 -p 6379 REPLICATE 3 0 AUTOMAT 172.24.81.132 6379 172.24.81.136 6379 172.24.81.137 6379
 
-(def counter (atom -1))
-
-(defn next-value []
-  (swap! counter inc))
+(defn parse-number [s]
+  (if (nil? s)
+    nil
+    (Integer/parseInt s)))
 
 (defn db
   "CRDT-Redis for a particular version."
@@ -106,19 +106,19 @@
   (invoke! [_ test op]
     (case (:f op)
         :add (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
-                 (assoc op :type :ok))
+                 (assoc op :type :ok, :value nil))
               (catch [] ex
-                  (assoc op :type :ok)))
+                  (assoc op :type :ok, :value nil)))
         :incrby (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
-                    (assoc op :type :ok))
+                    (assoc op :type :ok, :value nil))
                 (catch [] ex
-                  (assoc op :type :ok)))
+                  (assoc op :type :ok, :value nil)))
         :rem (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op)))
-                 (assoc op :type :ok))
+                 (assoc op :type :ok, :value nil))
               (catch [] ex
-                  (assoc op :type :ok)))
-        :score (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))
-        :max (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))
+                  (assoc op :type :ok, :value nil)))
+        :score (assoc op :type :ok, :value (vector (parse-number (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))
+        :max (assoc op :type :ok, :value (vec (map parse-number (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (:value op))))))))
 
   (teardown! [this test])
 
