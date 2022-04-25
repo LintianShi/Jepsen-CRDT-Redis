@@ -163,9 +163,9 @@
           :client (PQClient. nil)
           :checker         (checker/visearch-checker "rpq")
           :generator       (->> (gen/mix [rwfzadd rwfzincrby rwfzrem rwfzscore rwfzmax])
-                                (gen/stagger 1)
+                                (gen/stagger 1/5)
                                 (gen/nemesis nil)
-                                (gen/time-limit 30))}))
+                                (gen/time-limit 20))}))
 
 (defn -main
   "Handles command line arguments. Can either run a test, or a web server for
