@@ -57,14 +57,10 @@
    "rpq"      rpq/workload})
 
 (defn test-model
-  "Some docstring about what this specific implementation of Doer
-  does differently than the other ones. For example, this one does
-  not actually do anything but print the given string to stdout."
   []
   (let [ctx (atom #{})]
     (reify
       AbstractDataType
-      ;; (init [this context] (reset! ctx context))
       (step [this invocation] (cond
                                 (= "add" (.getMethodName invocation)) (some? (swap! ctx conj (int (.get (.getArguments invocation) 0))))
                                 (= "remove" (.getMethodName invocation)) (some? (swap! ctx disj (int (.get (.getArguments invocation) 0))))
@@ -72,11 +68,11 @@
                                 (= "size" (.getMethodName invocation)) (= (count @ctx) (int (.get (.getRetValues invocation) 0)))))
       (reset [this] (reset! ctx #{})))))
 
-(defn test-creator
-  []
+(defn creator-wrapper
+  [model-creator]
   (reify
     DataTypeCreator
-    (createDataType [this] (test-model))))
+    (createDataType [this] (model-creator))))
 
 (defn crdt-redis-test
   "Given an options map from the command line runner (e.g. :nodes, :ssh,
@@ -92,7 +88,7 @@
           :db   (db)
           :pure-generators true
           :client cl
-          :checker         (checker/visearch-checker (test-creator))
+          :checker         (checker/visearch-checker (creator-wrapper test-model))
           :generator       (->> workload
                                 (gen/stagger 1/2)
                                 (gen/nemesis nil)
