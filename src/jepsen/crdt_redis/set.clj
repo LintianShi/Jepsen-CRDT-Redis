@@ -33,8 +33,8 @@
                      (assoc op :type :ok, :value nil))
                  (catch [] ex
                    (assoc op :type :fail, :value nil)))
-      :contains (assoc op :type :ok, :value (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "scontains") "default"] (:value op)))))
-      :size (let [ret (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "ssize") "default"] (:value op))))] (assoc op :type :ok, :value (if (nil? ret) 0 ret)))))
+      :contains (let [ret (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "scontains") "default"] (:value op))))] (assoc op :type :ok, :value (if (nil? ret) 0 ret)))
+      :size (let [ret (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "ssize") "default"] (:value op))))] (assoc op :type :ok, :value (if (number? ret) ret 0)))))
 
   (teardown! [this test])
 

@@ -1,6 +1,7 @@
 (ns jepsen.crdt-redis
   (:require [clojure.tools.logging :refer :all]
             [clojure.string :as str]
+            [clojure.set :as cljset]
             [jepsen.crdt-redis [support :as spt]
                                [set :as set]
                                [rpq :as rpq]]
@@ -15,7 +16,20 @@
             [jepsen.control.util :as cu]
             [jepsen.os.ubuntu :as ubuntu])
     (:use [slingshot.slingshot :only [try+]])
-    (:import [checking JChecker]))
+    (:import [checking JChecker]
+             [datatype AbstractDataType]
+             [datatype DataTypeCreator]
+             [history Invocation]))
+
+;; (defrecord TestSet [data]
+;;   model/Model
+;;   (step [r op]
+;;     (condp = (:f op)
+;;       :add (TestSet. (conj (:data r) (:value op)))
+;;       :remove   (TestSet. (disj (:data r) (:value op)))
+;;       :contains  (if (contains? (:data r) (:value op))
+;;                    (TestSet. (:data r))
+;;                    nil))))
 
 ;; ../../redis-6.0.5/src/redis-cli -h 127.0.0.1 -p 6379 REPLICATE 3 0 AUTOMAT 172.24.81.132 6379 172.24.81.136 6379 172.24.81.137 6379
 
@@ -42,6 +56,28 @@
   {"set"      set/workload
    "rpq"      rpq/workload})
 
+(defn test-model
+  "Some docstring about what this specific implementation of Doer
+  does differently than the other ones. For example, this one does
+  not actually do anything but print the given string to stdout."
+  []
+  (let [ctx (atom #{})]
+    (reify
+      AbstractDataType
+      ;; (init [this context] (reset! ctx context))
+      (step [this invocation] (cond
+                                (= "add" (.getMethodName invocation)) (some? (swap! ctx conj (int (.get (.getArguments invocation) 0))))
+                                (= "remove" (.getMethodName invocation)) (some? (swap! ctx disj (int (.get (.getArguments invocation) 0))))
+                                (= "contains" (.getMethodName invocation)) (= (contains? @ctx (int (.get (.getArguments invocation) 0))) (= 1 (int (.get (.getRetValues invocation) 0))))
+                                (= "size" (.getMethodName invocation)) (= (count @ctx) (int (.get (.getRetValues invocation) 0)))))
+      (reset [this] (reset! ctx #{})))))
+
+(defn test-creator
+  []
+  (reify
+    DataTypeCreator
+    (createDataType [this] (test-model))))
+
 (defn crdt-redis-test
   "Given an options map from the command line runner (e.g. :nodes, :ssh,
   :concurrency, ...), constructs a test map."
@@ -56,9 +92,9 @@
           :db   (db)
           :pure-generators true
           :client cl
-          :checker         (checker/visearch-checker (:workload opts))
+          :checker         (checker/visearch-checker (test-creator))
           :generator       (->> workload
-                                (gen/stagger 1/5)
+                                (gen/stagger 1/2)
                                 (gen/nemesis nil)
                                 (gen/time-limit 10))})))
 
