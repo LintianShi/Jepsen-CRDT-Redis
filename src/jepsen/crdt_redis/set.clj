@@ -8,12 +8,12 @@
 
 ;; set
 (defn sadd   [_ _] {:type :invoke, :f :add, :value [(rand-int 5)]})
-(defn srem   [_ _] {:type :invoke, :f :rem, :value [(rand-int 5)]})
+(defn sremove   [_ _] {:type :invoke, :f :remove, :value [(rand-int 5)]})
 (defn scontains   [_ _] {:type :invoke, :f :contains, :value [(rand-int 5)]})
 (defn ssize   [_ _] {:type :invoke, :f :size, :value []})
 
 (defn workload []
-  (gen/mix [sadd srem scontains ssize]))
+  (gen/mix [sadd sremove scontains ssize]))
 
 (defrecord SetClient [conn type]
   client/Client
@@ -29,7 +29,7 @@
                      (assoc op :type :ok, :value nil))
                  (catch [] ex
                    (assoc op :type :fail, :value nil)))
-      :rem (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "srem") "default"] (:value op))))
+      :remove (try+ (do (car/wcar {:pool {} :spec {:host conn :port 6379}} (car/redis-call (into [(str type "srem") "default"] (:value op))))
                      (assoc op :type :ok, :value nil))
                  (catch [] ex
                    (assoc op :type :fail, :value nil)))
